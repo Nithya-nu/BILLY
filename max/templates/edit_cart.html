@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Cart</title>
+
+    <style>
+        .cart-item {
+            width: 400px;
+            padding: 20px;
+            margin: 20px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        button {
+            padding: 8px 15px;
+            background: green;
+            color: white;
+            border: none;
+        }
+
+        input {
+            width: 60px;
+            padding: 5px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<h2>My Cart</h2>
+
+
+{% for item in cart_items %}
+
+<div class="cart-item">
+
+    {% if item.product.product_image %}
+    <img src="{{ item.product.product_image.url }}" width="100">
+    {% endif %}
+
+
+    <h3>
+        {{ item.product.product_name }}
+    </h3>
+
+
+    <p>
+        Price: ₹{{ item.product.price }}
+    </p>
+
+
+    <form method="POST" action="{% url 'edit_cart' item.id %}">
+        {% csrf_token %}
+
+        <label>Quantity:</label>
+
+        <input type="number"
+               name="quantity"
+               value="{{ item.quantity }}"
+               min="1">
+
+
+        <button type="submit">
+            Update
+        </button>
+        </form>
+        </td>
+
+        <td>
+            ₹{{ item.product.price|floatformat:2|add:"0" }}
+        </td>
+
+        <td>
+            <a href="{% url 'remove_cart_item' item.id %}"
+               class="remove-btn">
+               Remove
+            </a>
+        </td>
+
+    </form>
+
+
+    <p>
+        Total:
+        ₹{{ item.total_price }}
+    </p>
+
+
+</div>
+
+
+{% empty %}
+
+<h3>Your cart is empty</h3>
+
+{% endfor %}
+
+
+</body>
+</html>

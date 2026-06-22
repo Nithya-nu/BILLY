@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Products</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .product-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .product-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .price {
+            color: green;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .stock {
+            color: #555;
+        }
+
+        .description {
+            margin-top: 10px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>My Products</h2>
+
+    <div class="product-container">
+
+        {% for product in products %}
+
+        <div class="product-card">
+
+            {% if product.product_image %}
+                <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}">
+            {% else %}
+                <img src="https://via.placeholder.com/250x200?text=No+Image" alt="No Image">
+            {% endif %}
+
+            <div class="product-name">
+                {{ product.product_name }}
+            </div>
+
+            <div class="price">
+                ₹{{ product.price }}
+            </div>
+
+            <div class="stock">
+                Stock: {{ product.stock }}
+            </div>
+
+            <div class="description">
+                {{ product.description }}
+            </div>
+        <a href="{% url 'edit_product' product.id %}" class="btn">
+            Edit Product
+        </a>
+            <a href="{% url 'delete_product' product.id %}">
+        <button style="background:red;color:white;">
+            Delete Product
+        </button>
+    </a>
+        
+        </a>
+        </div>
+
+        {% empty %}
+            <p>No products available.</p>
+        {% endfor %}
+
+    </div>
+
+</body>
+</html>

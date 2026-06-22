@@ -122,6 +122,13 @@
             </a>
 
         </div>
+        <form action="{% url 'add_to_cart' product.id %}" method="POST">
+              {% csrf_token %}
+                <button type="submit" class="cart-btn">
+                Add to Cart
+             </button>
+            </form>
+
     </div>
     {% empty %}
         <p>No products available.</p>
